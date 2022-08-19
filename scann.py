@@ -13,24 +13,25 @@ def main():
     (options, args) = parser.parse_args()
 
     tgtHost = options.tgtHost
-    tgtPort = options.tgtPort
+    tgtPorts = options.tgtPort
 
-    if (tgtHost == None) |(tgtPort == None):
+    if (tgtHost == None) |(tgtPorts == None):
         print(parser.usage)
         exit(0)
 
-    portScan(tgtHost, tgtPort)
+    portScan(tgtHost, tgtPorts)
 
-def connScan(tgtHost, tgtPort):
+
+def connScan(tgtHost, tgtPorts):
     try:
         connSKT = socket(AF_INET, SOCK_STREAM)
 
-        connSKT.connect((tgtHost, tgtPort))
+        connSKT.connect((tgtHost, tgtPorts))
         
         connSKT.send('Violent Python\r\n')
         results = connSKT.recv(100)
 
-        print("[+]%d tcp open"%tgtPort)
+        print("[+]%d tcp open"%tgtPorts)
         print("[+]" + str(results))
 
         connSKT.close()
@@ -41,14 +42,14 @@ def connScan(tgtHost, tgtPort):
 def portScan(tgtHost, tgtPorts):
     
     try:
-        tgtIP = gethostbyename(tgtHost)
+        tgtIP = gethostbyname(tgtHost)
     except:
         print("[-] Cannot resolve '%s': Unknown host"%tgtHost)
 
         return
 
     try:
-        tgtNanme = gethostbyaddr(tgtIP)
+        tgtName = gethostbyaddr(tgtIP)
         print("\n[+] Scan Result for: " + tgtName[0])
     except:
 
