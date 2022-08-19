@@ -3,7 +3,9 @@ import optparse
 import socket
 from  socket import *
 from threading import Thread
-
+import signal
+import sys
+import nmap
 
 def main():
     parser = optparse.OptionParser('usage %prog -H' + '<target host> -p <target port')
@@ -21,9 +23,17 @@ def main():
         print(parser.usage)
         exit(0)
 
-    portScan(tgtHost, tgtPorts)
+    nmapScan(tgtHost, tgtPorts)
 
 screenLock = Semaphore(value=1)
+
+
+def nmapScan(tgtHost, tgtPort):
+    nmScan = nmap.PortScanner()
+    nmScan.scan(tgtHost, tgtPort)
+    state = nmScan[tgtHost]['tcp'][int(tgtPort)]['state']
+
+    print("[*]" + tgtHost + "tcp/" + tgtPort + "" + state)
 
 
 def connScan(tgtHost, tgtPorts):
@@ -71,6 +81,13 @@ def portScan(tgtHost, tgtPorts):
     for Port in tgtPorts:
         t = Thread(target=connScan, args=(tgtHost, int(Port)))
         t.start()
+
+
+def sigint_handler(signal, frame):
+    print ('KeyboardInterrupt is caught')
+    sys.exit(0)
+    signal.signal(signal.SIGINT, sigint_handler)
+
 
 
 def banner():
