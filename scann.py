@@ -23,17 +23,17 @@ def main():
         print(parser.usage)
         exit(0)
 
-    nmapScan(tgtHost, tgtPorts)
+    portScan(tgtHost, tgtPorts)
 
 screenLock = Semaphore(value=1)
 
 
-def nmapScan(tgtHost, tgtPort):
-    nmScan = nmap.PortScanner()
-    nmScan.scan(tgtHost, tgtPort)
-    state = nmScan[tgtHost]['tcp'][int(tgtPort)]['state']
-
-    print("[*]" + tgtHost + "tcp/" + tgtPort + "" + state)
+#def nmapScan(tgtHost, tgtPort):
+#   nmScan = nmap.PortScanner()
+#   nmScan.scan(tgtHost, tgtPort)
+#   state = nmScan[tgtHost]['tcp'][int(tgtPort)]['state']
+#
+#   print("[*]" + tgtHost + "tcp/" + tgtPort + "" + state)
 
 
 def connScan(tgtHost, tgtPorts):
