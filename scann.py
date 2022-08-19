@@ -5,7 +5,6 @@ from  socket import *
 from threading import Thread
 import signal
 import sys
-import nmap
 
 def main():
     parser = optparse.OptionParser('usage %prog -H' + '<target host> -p <target port')
@@ -105,8 +104,6 @@ def banner():
      \/__/       \/__/        \/__/    \/__/   ScannerPort: by D4lt0x6e
     """
     print(banner)
-
-
 
 
 if __name__ == '__main__':
