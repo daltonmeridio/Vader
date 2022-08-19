@@ -10,7 +10,7 @@ def main():
 
     parser.add_option('-H', dest='tgtHost', type='string', help='specify target host')
 
-    parser.add_option('-p', dest='tgtPort', type='int', help='specify target port')
+    parser.add_option('-p', dest='tgtPort', type='string', help='specify target port')
 
     (options, args) = parser.parse_args()
 
@@ -40,7 +40,6 @@ def connScan(tgtHost, tgtPorts):
         print("[+]%d tcp open"%tgtPorts)
         print("[+]" + str(results))
 
-        connSKT.close()
     except:
         screenLock.acquire()
 
@@ -69,8 +68,8 @@ def portScan(tgtHost, tgtPorts):
 
     setdefaulttimeout(1)
 
-    for tgtPort in tgtPorts:
-        t = Thread(target=connScan, args=(tgtHost, int(tgtPort)))
+    for Port in tgtPorts:
+        t = Thread(target=connScan, args=(tgtHost, int(Port)))
         t.start()
 
 if __name__ == '__main__':
