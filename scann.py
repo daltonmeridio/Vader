@@ -1,6 +1,8 @@
+from multiprocessing import Semaphore
 import optparse 
 import socket
 from  socket import *
+from threading import Thread
 
 
 def main():
@@ -21,6 +23,8 @@ def main():
 
     portScan(tgtHost, tgtPorts)
 
+screenLock = Semaphore(value=1)
+
 
 def connScan(tgtHost, tgtPorts):
     try:
@@ -31,12 +35,20 @@ def connScan(tgtHost, tgtPorts):
         connSKT.send('Violent Python\r\n')
         results = connSKT.recv(100)
 
+        screenLock.acquire()
+
         print("[+]%d tcp open"%tgtPorts)
         print("[+]" + str(results))
 
         connSKT.close()
     except:
+        screenLock.acquire()
+
         print("[-]%d tcp closed"%tgtHost)
+
+    finally:
+        screenLock.acquire()
+        connSKT.close()
 
 
 def portScan(tgtHost, tgtPorts):
@@ -58,9 +70,8 @@ def portScan(tgtHost, tgtPorts):
     setdefaulttimeout(1)
 
     for tgtPort in tgtPorts:
-        print("Scanning port" + tgtPort)
-        connScan(tgtHost, int(tgtPort))
-
+        t = Thread(target=connScan, args=(tgtHost, int(tgtPort)))
+        t.start()
 
 if __name__ == '__main__':
     main()
