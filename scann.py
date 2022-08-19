@@ -1,28 +1,37 @@
 import optparse 
+import socket
 from  socket import *
 
-parser = optparse.OptionParser('usage %prog -H' + '<target host> -p <target port')
 
-parser.add_option('-H', dest='tgtHost', type='string', help='specify target host')
+def main():
+    parser = optparse.OptionParser('usage %prog -H' + '<target host> -p <target port')
 
-parser.add_option('-p', dest='tgtPort', type='int', help='specify target port')
+    parser.add_option('-H', dest='tgtHost', type='string', help='specify target host')
 
-(options, args) = parser.parse_args()
+    parser.add_option('-p', dest='tgtPort', type='int', help='specify target port')
 
-tgtHost = options.tgtHost
-tgtPort = options.tgtPort
+    (options, args) = parser.parse_args()
 
-if (tgtHost == None) |(tgtPort == None):
-    print(parser.usage)
-exit(0)
+    tgtHost = options.tgtHost
+    tgtPort = options.tgtPort
+
+    if (tgtHost == None) |(tgtPort == None):
+        print(parser.usage)
+        exit(0)
+
+    portScan(tgtHost, tgtPort)
 
 def connScan(tgtHost, tgtPort):
     try:
         connSKT = socket(AF_INET, SOCK_STREAM)
 
         connSKT.connect((tgtHost, tgtPort))
+        
+        connSKT.send('Violent Python\r\n')
+        results = connSKT.recv(100)
 
         print("[+]%d tcp open"%tgtPort)
+        print("[+]" + str(results))
 
         connSKT.close()
     except:
@@ -36,7 +45,7 @@ def portScan(tgtHost, tgtPorts):
     except:
         print("[-] Cannot resolve '%s': Unknown host"%tgtHost)
 
-    return
+        return
 
     try:
         tgtNanme = gethostbyaddr(tgtIP)
@@ -50,3 +59,9 @@ def portScan(tgtHost, tgtPorts):
     for tgtPort in tgtPorts:
         print("Scanning port" + tgtPort)
         connScan(tgtHost, int(tgtPort))
+
+
+if __name__ == '__main__':
+    main()
+
+
