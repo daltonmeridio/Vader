@@ -7,11 +7,11 @@ import signal
 import sys
 
 def main():
-    parser = optparse.OptionParser('usage %prog -H' + '<target host> -p <target port')
+    parser = optparse.OptionParser('Como usar %prog -H' + '<target host> -p <target port')
 
-    parser.add_option('-H', dest='tgtHost', type='string', help='specify target host')
+    parser.add_option('-H', dest='tgtHost', type='string', help='ingrese el host')
 
-    parser.add_option('-p', dest='tgtPort', type='string', help='specify target port')
+    parser.add_option('-p', dest='tgtPort', type='string', help='ingrese el puerto')
 
     (options, args) = parser.parse_args()
 
