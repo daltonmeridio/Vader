@@ -8,7 +8,7 @@ screenLock = Semaphore(value=1)
 
 
 def main():
-    parser = optparse.OptionParser('Uso: vader.py -H' + ' <target ip> -p <target port')
+    parser = optparse.OptionParser('Uso: vader.py -H' + ' <target ip> -p <target port>')
     parser.add_option('-H', dest='Target_IP', type='string', help='ingrese el host')
     parser.add_option('-p', dest='Target_Port', type='string', help='ingrese el puerto')
     parser.add_option('-t', dest='threading', action='store_true', help='Ingrese los hilos a usar: -t 10')
