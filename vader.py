@@ -20,17 +20,17 @@ def main():
         exit(0)
 
     target_ports = list(map(int, filter(None, map(lambda p: p.strip(), options.Target_Port.split(",")))))
-    portScan(options.Target_IP, target_ports, options.threading)
+    Port_Scan(options.Target_IP, target_ports, options.threading)
 
 
-def connScan(Target_IP, Target_Port):
-    connSKT = None
+def Scan(Target_IP, Target_Port):
+    SKT = None
 
     try:
-        connSKT = socket(AF_INET, SOCK_STREAM)
-        connSKT.connect((Target_IP, Target_Port))
-        connSKT.send('Dalton was here\r\n')
-        results = connSKT.recv(100)
+        SKT = socket(AF_INET, SOCK_STREAM)
+        SKT.connect((Target_IP, Target_Port))
+        SKT.send('Dalton was here\r\n')
+        results = SKT.recv(100)
         screenLock.acquire()
 
         print(f"[+]%d tcp open {Target_IP}{Target_Port}")
@@ -41,11 +41,11 @@ def connScan(Target_IP, Target_Port):
         print(f"[-]%d tcp closed {Target_IP}")
     finally:
         screenLock.release()
-        if connSKT:
-            connSKT.close()
+        if SKT:
+            SKT.close()
 
 
-def portScan(Target_IP, Target_Port, threading=False):
+def Port_Scan(Target_IP, Target_Port, threading=False):
     
     try:
         t_IP = gethostbyname(Target_IP)
@@ -66,7 +66,7 @@ def portScan(Target_IP, Target_Port, threading=False):
             t = Thread(target=connScan, args=(Target_IP, int(Port)))
             t.start()
         else:
-            connScan(Target_IP, Target_Port)
+            Scan(Target_IP, Target_Port)
 
 
 def banner():
