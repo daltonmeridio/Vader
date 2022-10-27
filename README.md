@@ -16,15 +16,3 @@ $ python vader.py -h
                                                                  ScannerPort: by D4lt0x6e
 
 < Happy Hacking ! >
-    \    ^ __ ^
-     \   ( oo ) \________\/\/
-         ( __ ) \        )
-             ||----w || ||
-
-Usage: Uso: vader.py -H <target ip> -p <target port>
-
-Options:
-  -h, --help      Show this help message and exit
-  -H TARGET_IP    Ingrese el host
-  -p TARGET_PORT  Ingrese el puerto
-  -t THREADING   Ingrese los hilos a usar: -t 10
